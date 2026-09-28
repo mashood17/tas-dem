@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8F1E1" />
+      <stop offset="35%" stop-color="#E7D28A" />
+      <stop offset="70%" stop-color="#B89B43" />
+      <stop offset="100%" stop-color="#6B4F24" />
+    </linearGradient>
+
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <path id="topArcPathGold" d="M 65,250 A 185,185 0 1,1 435,250" fill="none" />
+    <path id="bottomArcPathGold" d="M 425,250 A 175,175 0 0,1 75,250" fill="none" />
+  </defs>
+
+  <g id="logo-container-gold" fill="url(#goldGrad)" stroke="url(#goldGrad)">
+    <!-- Outer Ring -->
+    <circle cx="250" cy="250" r="235" fill="none" stroke-width="4" opacity="0.95" />
+    <circle cx="250" cy="250" r="227" fill="none" stroke-width="1.5" opacity="0.7" />
+
+    <!-- Inner Frame Ring -->
+    <circle cx="250" cy="250" r="162" fill="none" stroke-width="3" opacity="0.85" />
+    <circle cx="250" cy="250" r="156" fill="none" stroke-width="1" opacity="0.6" />
+
+    <!-- Top Text: TASTY RESTAURANT -->
+    <text font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="url(#goldGrad)" stroke="none" letter-spacing="9.5">
+      <textPath href="#topArcPathGold" startOffset="50%" text-anchor="middle">
+        TASTY RESTAURANT
+      </textPath>
+    </text>
+
+    <!-- Bottom Text: SINCE 2003 -->
+    <text font-family="'Montserrat', sans-serif" font-size="20" font-weight="500" fill="url(#goldGrad)" stroke="none" letter-spacing="7">
+      <textPath href="#bottomArcPathGold" startOffset="50%" text-anchor="middle">
+        SINCE 2003
+      </textPath>
+    </text>
+
+    <!-- Center Monogram Group (TR with Knife & Spoon) -->
+    <g transform="translate(115, 105)">
+      <!-- Outer Crescent Framing Arc -->
+      <path d="M 125 25 C 40 25, -5 90, 10 170 C 20 220, 70 260, 135 260 C 185 260, 220 235, 235 200" 
+            fill="none" stroke-width="6" stroke-linecap="round" />
+
+      <!-- Knife Silhouette (Left of T Stem) -->
+      <path d="M 68, 70 L 68, 230 C 68, 235 64, 238 60, 235 C 57, 215 54, 150 56, 110 C 58, 85 64, 75 68, 70 Z" 
+            fill="url(#goldGrad)" stroke="none" />
+
+      <!-- T Horizontal Bar -->
+      <path d="M 45 70 C 45 65, 80 62, 195 62 C 200 62, 202 68, 195 72 C 170 82, 150 78, 130 78 L 85 78 L 85 235 C 85 240, 78 240, 78 235 L 78 78 L 45 78 Z" 
+            fill="url(#goldGrad)" stroke="none" />
+
+      <!-- Spoon Silhouette (Inside R loop) -->
+      <ellipse cx="148" cy="120" rx="14" ry="24" fill="url(#goldGrad)" stroke="none" />
+      <path d="M 146 142 L 146 220 C 146 223 150 223 150 220 L 150 142 Z" fill="url(#goldGrad)" stroke="none" />
+
+      <!-- R Emblem Structure -->
+      <path d="M 105 85 C 150 78, 205 95, 200 145 C 195 185, 145 190, 105 185" 
+            fill="none" stroke-width="8" stroke-linecap="round" />
+      <path d="M 130 185 C 155 185, 195 210, 230 235 C 242 243, 252 245, 260 242" 
+            fill="none" stroke-width="7" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

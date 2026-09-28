@@ -1,0 +1,69 @@
+"use client";
+
+import React, { useState } from "react";
+import SplashScreen from "@/components/SplashScreen";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import FlavoursSection from "@/components/FlavoursSection";
+import GallerySection from "@/components/GallerySection";
+import ReviewsSection from "@/components/ReviewsSection";
+import MenuWhatsAppSection from "@/components/MenuWhatsAppSection";
+import InstagramSection from "@/components/InstagramSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
+import { MessageCircle, PhoneCall } from "lucide-react";
+
+const WHATSAPP_URL = "https://wa.me/917711006608?text=Hello%20Tasty%20Restaurant,%20I%20would%20like%20to%20enquire%20about%20your%20menu%20and%20delivery%20options.";
+
+export default function Home() {
+  const [splashFinished, setSplashFinished] = useState(false);
+
+  return (
+    <main className="relative min-h-screen bg-[#1A1510] text-[#F8F1E1] selection:bg-[#B89B43] selection:text-[#1A1510]">
+      {/* Splash Screen Overlay */}
+      <SplashScreen onComplete={() => setSplashFinished(true)} />
+
+      {/* Main Page Content */}
+      <div className={`transition-opacity duration-700 ${splashFinished ? "opacity-100" : "opacity-90"}`}>
+        <Navbar />
+        <HeroSection />
+        <AboutSection />
+        <FlavoursSection />
+        <GallerySection />
+        <ReviewsSection />
+        <MenuWhatsAppSection />
+        <InstagramSection />
+        <ContactSection />
+        <Footer />
+      </div>
+
+      {/* Floating Sticky Mobile Quick Action Bar */}
+      <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-3">
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-3.5 rounded-full bg-emerald-600 text-white shadow-2xl hover:bg-emerald-500 hover:scale-110 transition-all flex items-center justify-center group"
+          aria-label="Enquire on WhatsApp"
+        >
+          <MessageCircle className="w-6 h-6" />
+          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 text-xs font-bold font-sans uppercase">
+            WhatsApp
+          </span>
+        </a>
+
+        <a
+          href="tel:+918904516291"
+          className="p-3.5 rounded-full bg-[#B89B43] text-[#1A1510] shadow-2xl hover:bg-[#E7D28A] hover:scale-110 transition-all flex items-center justify-center group"
+          aria-label="Call Restaurant"
+        >
+          <PhoneCall className="w-6 h-6" />
+          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 text-xs font-bold font-sans uppercase">
+            Call Now
+          </span>
+        </a>
+      </div>
+    </main>
+  );
+}
