@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu as MenuIcon, X, ExternalLink, UtensilsCrossed } from "lucide-react";
+import { Menu as MenuIcon, X, UtensilsCrossed } from "lucide-react";
 import TastyLogo from "./TastyLogo";
-
-const EXTERNAL_MENU_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -65,9 +64,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo & Brand Name */}
-          <a
-            href="#home"
-            onClick={(e) => scrollToSection(e, "#home")}
+          <Link
+            href="/"
             className="flex items-center gap-3 group"
           >
             <TastyLogo size={44} variant="gold" className="w-10 h-10 md:w-11 md:h-11 transition-transform group-hover:scale-105" />
@@ -79,7 +77,7 @@ export default function Navbar() {
                 RESTAURANT · BTM
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-7">
@@ -106,30 +104,25 @@ export default function Navbar() {
               );
             })}
 
-            {/* Menu External Button */}
-            <a
-              href={EXTERNAL_MENU_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Menu Dedicated Page Link */}
+            <Link
+              href="/menu"
               className="gold-btn-gradient flex items-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-xs tracking-wider uppercase shadow-lg group"
             >
               <UtensilsCrossed className="w-3.5 h-3.5 text-[#1A1510] group-hover:rotate-12 transition-transform" />
               <span>Explore Menu</span>
-              <ExternalLink className="w-3 h-3 text-[#1A1510] opacity-80" />
-            </a>
+            </Link>
           </nav>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Hamburger Button & Menu Quick Action */}
           <div className="flex items-center gap-3 md:hidden">
-            <a
-              href={EXTERNAL_MENU_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/menu"
               className="gold-btn-gradient px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5"
             >
+              <UtensilsCrossed className="w-3 h-3 text-[#1A1510]" />
               <span>Menu</span>
-              <ExternalLink className="w-3 h-3 text-[#1A1510]" />
-            </a>
+            </Link>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -170,17 +163,14 @@ export default function Navbar() {
                 );
               })}
 
-              <a
-                href={EXTERNAL_MENU_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/menu"
                 onClick={() => setMobileMenuOpen(false)}
                 className="gold-btn-gradient w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-sans font-bold text-xs uppercase tracking-widest mt-2"
               >
                 <UtensilsCrossed className="w-4 h-4 text-[#1A1510]" />
                 <span>Explore Full Menu</span>
-                <ExternalLink className="w-4 h-4 text-[#1A1510]" />
-              </a>
+              </Link>
 
               <p className="text-center text-xs text-[#C9B68C]/70 pt-2 font-sans italic">
                 &ldquo;Meal Shared Is A Memory Made!&rdquo;

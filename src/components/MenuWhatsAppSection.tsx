@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Utensils, MessageCircle, ExternalLink, PhoneCall, Sparkles } from "lucide-react";
+import { Utensils, MessageCircle, ArrowRight, PhoneCall, Sparkles } from "lucide-react";
+import { RESTAURANT_CONFIG } from "@/config/restaurant";
 
-const EXTERNAL_MENU_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
-const WHATSAPP_URL = "https://wa.me/917711006608?text=Hello%20Tasty%20Restaurant,%20I%20would%20like%20to%20enquire%20about%20your%20menu%20and%20delivery%20options.";
+const WHATSAPP_URL = `https://wa.me/${RESTAURANT_CONFIG.activeWhatsAppNumber}?text=${encodeURIComponent(
+  "Hello Tasty Restaurant, I would like to enquire about your menu and delivery options."
+)}`;
 
 export default function MenuWhatsAppSection() {
   return (
@@ -47,16 +50,14 @@ export default function MenuWhatsAppSection() {
 
           {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <a
-              href={EXTERNAL_MENU_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/menu"
               className="gold-btn-gradient w-full sm:w-auto px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-3 shadow-xl group"
             >
               <Utensils className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform" />
               <span>Explore Full Menu</span>
-              <ExternalLink className="w-4 h-4 text-[#1A1510]" />
-            </a>
+              <ArrowRight className="w-4 h-4 text-[#1A1510]" />
+            </Link>
 
             <a
               href={WHATSAPP_URL}

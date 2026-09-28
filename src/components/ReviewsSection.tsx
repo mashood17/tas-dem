@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Star, Quote, ExternalLink, ThumbsUp, Award } from "lucide-react";
+import { RESTAURANT_CONFIG } from "@/config/restaurant";
 
 const platformRatings = [
   {
@@ -58,7 +59,7 @@ const customerReviews = [
   },
 ];
 
-const EXTERNAL_REVIEWS_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
+const EXTERNAL_REVIEWS_URL = RESTAURANT_CONFIG.googleMapsDirectionsUrl;
 
 export default function ReviewsSection() {
   return (

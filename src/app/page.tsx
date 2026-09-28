@@ -12,17 +12,28 @@ import MenuWhatsAppSection from "@/components/MenuWhatsAppSection";
 import InstagramSection from "@/components/InstagramSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import CartDrawer from "@/components/CartDrawer";
+import MobileCartBar from "@/components/MobileCartBar";
 import { MessageCircle, PhoneCall } from "lucide-react";
-
-const WHATSAPP_URL = "https://wa.me/917711006608?text=Hello%20Tasty%20Restaurant,%20I%20would%20like%20to%20enquire%20about%20your%20menu%20and%20delivery%20options.";
+import { RESTAURANT_CONFIG } from "@/config/restaurant";
+import { useCart } from "@/context/CartContext";
 
 export default function Home() {
   const [splashFinished, setSplashFinished] = useState(false);
+  const { totalItems } = useCart();
+
+  const whatsappUrl = `https://wa.me/${RESTAURANT_CONFIG.activeWhatsAppNumber}?text=${encodeURIComponent(
+    "Hello Tasty Restaurant, I would like to enquire about your menu and delivery options."
+  )}`;
 
   return (
     <main className="relative min-h-screen bg-[#1A1510] text-[#F8F1E1] selection:bg-[#B89B43] selection:text-[#1A1510]">
       {/* Splash Screen Overlay */}
       <SplashScreen onComplete={() => setSplashFinished(true)} />
+
+      {/* Cart Drawer & Mobile Bar */}
+      <CartDrawer />
+      <MobileCartBar />
 
       {/* Main Page Content */}
       <div className={`transition-opacity duration-700 ${splashFinished ? "opacity-100" : "opacity-90"}`}>
@@ -38,10 +49,14 @@ export default function Home() {
         <Footer />
       </div>
 
-      {/* Floating Sticky Mobile Quick Action Bar */}
-      <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-3">
+      {/* Floating Sticky Mobile Quick Action Bar (when cart is empty or offset on desktop) */}
+      <div
+        className={`fixed z-30 flex flex-col gap-3 transition-all duration-300 right-5 ${
+          totalItems > 0 ? "bottom-24 md:bottom-5" : "bottom-5"
+        }`}
+      >
         <a
-          href={WHATSAPP_URL}
+          href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="p-3.5 rounded-full bg-emerald-600 text-white shadow-2xl hover:bg-emerald-500 hover:scale-110 transition-all flex items-center justify-center group"
@@ -54,7 +69,7 @@ export default function Home() {
         </a>
 
         <a
-          href="tel:+918904516291"
+          href={`tel:${RESTAURANT_CONFIG.primaryPhone.replace(/\s+/g, "")}`}
           className="p-3.5 rounded-full bg-[#B89B43] text-[#1A1510] shadow-2xl hover:bg-[#E7D28A] hover:scale-110 transition-all flex items-center justify-center group"
           aria-label="Call Restaurant"
         >

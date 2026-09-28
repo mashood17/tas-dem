@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ExternalLink, UtensilsCrossed, ArrowRight } from "lucide-react";
-
-const EXTERNAL_MENU_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
+import { UtensilsCrossed, ArrowRight } from "lucide-react";
 
 const categories = [
   {
@@ -105,15 +104,13 @@ export default function FlavoursSection() {
                   </p>
                 </div>
 
-                <a
-                  href={EXTERNAL_MENU_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/menu"
                   className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#B89B43] group-hover:text-[#E7D28A] transition-colors pt-2 border-t border-[#6B4F24]/30"
                 >
                   <span>Explore Items</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#B89B43] group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -121,16 +118,14 @@ export default function FlavoursSection() {
 
         {/* Section Bottom CTA */}
         <div className="mt-16 text-center">
-          <a
-            href={EXTERNAL_MENU_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/menu"
             className="gold-btn-gradient inline-flex items-center gap-3 px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase shadow-xl"
           >
             <UtensilsCrossed className="w-4 h-4 text-[#1A1510]" />
             <span>View Full Menu</span>
-            <ExternalLink className="w-4 h-4 text-[#1A1510]" />
-          </a>
+            <ArrowRight className="w-4 h-4 text-[#1A1510]" />
+          </Link>
         </div>
 
       </div>

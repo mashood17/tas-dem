@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { UtensilsCrossed, MapPin, ChevronDown, Sparkles } from "lucide-react";
-
-const EXTERNAL_MENU_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
 
 export default function HeroSection() {
   const scrollToContact = (e: React.MouseEvent) => {
@@ -59,15 +58,13 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-              <a
-                href={EXTERNAL_MENU_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/menu"
                 className="gold-btn-gradient w-full sm:w-auto px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-3 shadow-xl group"
               >
                 <UtensilsCrossed className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform" />
                 <span>Explore Our Menu</span>
-              </a>
+              </Link>
 
               <a
                 href="#contact"

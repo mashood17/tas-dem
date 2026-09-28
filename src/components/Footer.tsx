@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import TastyLogo from "./TastyLogo";
-import { Phone, MapPin, MessageCircle, ExternalLink, ArrowUp } from "lucide-react";
+import { Phone, MapPin, MessageCircle, ExternalLink, ArrowUp, ArrowRight } from "lucide-react";
+import { RESTAURANT_CONFIG } from "@/config/restaurant";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -24,9 +26,9 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-const EXTERNAL_MENU_URL = "https://business.google.com/site/l/06531287537201736397?hl=en-GB";
-const INSTAGRAM_URL = "https://www.instagram.com/tasty_restaurant_btm/";
-const WHATSAPP_URL = "https://wa.me/917711006608?text=Hello%20Tasty%20Restaurant,%20I%20would%20like%20to%20enquire%20about%20your%20menu%20and%20delivery%20options.";
+const WHATSAPP_URL = `https://wa.me/${RESTAURANT_CONFIG.activeWhatsAppNumber}?text=${encodeURIComponent(
+  "Hello Tasty Restaurant, I would like to enquire about your menu and delivery options."
+)}`;
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -42,17 +44,17 @@ export default function Footer() {
           
           {/* Brand & Logo Column */}
           <div className="md:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <TastyLogo size={44} variant="gold" className="w-11 h-11" />
+            <Link href="/" className="flex items-center gap-3 group">
+              <TastyLogo size={44} variant="gold" className="w-11 h-11 group-hover:scale-105 transition-transform" />
               <div>
-                <span className="font-serif text-xl font-bold tracking-wider text-[#F8F1E1]">
+                <span className="font-serif text-xl font-bold tracking-wider text-[#F8F1E1] group-hover:text-[#E7D28A] transition-colors">
                   TASTY RESTAURANT
                 </span>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-[#B89B43] font-medium font-sans">
                   BTM Layout · Bengaluru
                 </p>
               </div>
-            </div>
+            </Link>
 
             <p className="font-serif italic text-[#E7D28A]/90 text-sm">
               &ldquo;Meal Shared Is A Memory Made!&rdquo;
@@ -70,22 +72,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs text-[#C9B68C] font-sans">
               <li>
-                <a href="#home" className="hover:text-[#E7D28A] transition-colors">Home</a>
+                <Link href="/" className="hover:text-[#E7D28A] transition-colors">Home</Link>
               </li>
               <li>
-                <a href="#about" className="hover:text-[#E7D28A] transition-colors">Our Story</a>
+                <Link href="/menu" className="hover:text-[#E7D28A] transition-colors font-semibold text-[#E7D28A]/90">
+                  Digital Menu (/menu)
+                </Link>
               </li>
               <li>
-                <a href="#flavours" className="hover:text-[#E7D28A] transition-colors">The Flavours</a>
+                <Link href="/#about" className="hover:text-[#E7D28A] transition-colors">Our Story</Link>
               </li>
               <li>
-                <a href="#gallery" className="hover:text-[#E7D28A] transition-colors">The Experience</a>
+                <Link href="/#flavours" className="hover:text-[#E7D28A] transition-colors">The Flavours</Link>
               </li>
               <li>
-                <a href="#reviews" className="hover:text-[#E7D28A] transition-colors">Guest Reviews</a>
+                <Link href="/#gallery" className="hover:text-[#E7D28A] transition-colors">The Experience</Link>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#E7D28A] transition-colors">Find Us</a>
+                <Link href="/#reviews" className="hover:text-[#E7D28A] transition-colors">Guest Reviews</Link>
+              </li>
+              <li>
+                <Link href="/#contact" className="hover:text-[#E7D28A] transition-colors">Find Us</Link>
               </li>
             </ul>
           </div>
@@ -97,15 +104,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-[#C9B68C] font-sans">
               <li>
-                <a
-                  href={EXTERNAL_MENU_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/menu"
                   className="hover:text-[#E7D28A] transition-colors inline-flex items-center gap-1.5"
                 >
                   <span>Explore Menu</span>
-                  <ExternalLink className="w-3 h-3 text-[#B89B43]" />
-                </a>
+                  <ArrowRight className="w-3 h-3 text-[#B89B43]" />
+                </Link>
               </li>
               <li>
                 <a
@@ -120,7 +125,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href={INSTAGRAM_URL}
+                  href={RESTAURANT_CONFIG.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[#E7D28A] transition-colors inline-flex items-center gap-1.5"
@@ -140,11 +145,11 @@ export default function Footer() {
             <div className="space-y-2 text-xs text-[#C9B68C] font-sans">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#B89B43] shrink-0 mt-0.5" />
-                <span>104/2, 20th Main, Maruthi Nagar Main Road, BTM 1st Stage, Bengaluru 560029</span>
+                <span>{RESTAURANT_CONFIG.address}</span>
               </p>
               <p className="flex items-center gap-2 text-[#E7D28A] font-semibold">
                 <Phone className="w-4 h-4 text-[#B89B43] shrink-0" />
-                <span>+91 89045 16291</span>
+                <span>{RESTAURANT_CONFIG.primaryPhone}</span>
               </p>
             </div>
           </div>
