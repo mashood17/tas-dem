@@ -196,7 +196,7 @@ export default function MenuPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 relative flex justify-center">
+            <div className="hidden lg:flex lg:col-span-5 relative justify-center">
               <div className="relative w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden gold-border-glow shadow-2xl group">
                 <Image
                   src="/images/hero_mandi.jpg"
@@ -372,8 +372,8 @@ export default function MenuPage() {
                   transition={{ duration: 0.4 }}
                   className="glass-card rounded-2xl overflow-hidden border border-[#6B4F24]/30 hover:border-[#B89B43]/50 transition-all flex flex-col justify-between group shadow-lg"
                 >
-                  {/* Image Container */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-[#2A2217]">
+                  {/* Image Container - Hidden on mobile view, visible on sm and desktop */}
+                  <div className="hidden sm:block relative aspect-[16/10] overflow-hidden bg-[#2A2217]">
                     <Image
                       src={dish.image}
                       alt={dish.name}
@@ -415,7 +415,36 @@ export default function MenuPage() {
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
+                    {/* Mobile-only Dietary marker & Badges */}
+                    <div className="sm:hidden flex items-center justify-between gap-2 pb-1 border-b border-[#3B2E1F]/50">
+                      <div
+                        className={`w-4 h-4 rounded bg-[#1A1510] p-0.5 border flex items-center justify-center ${
+                          dish.isVeg ? "border-emerald-500" : "border-red-500"
+                        }`}
+                        title={dish.isVeg ? "Vegetarian" : "Non-Vegetarian"}
+                      >
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            dish.isVeg ? "bg-emerald-500" : "bg-red-500"
+                          }`}
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-1.5">
+                        {dish.isBestseller && (
+                          <span className="px-2 py-0.5 rounded-full bg-[#B89B43] text-[#1A1510] text-[9px] font-bold uppercase tracking-wider shadow">
+                            Bestseller
+                          </span>
+                        )}
+                        {dish.isSpeciality && (
+                          <span className="px-2 py-0.5 rounded-full bg-[#3B2E1F] border border-[#E7D28A]/40 text-[#E7D28A] text-[9px] font-bold uppercase tracking-wider">
+                            Chef Special
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
                     <div className="space-y-1.5">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="font-serif text-base font-bold text-[#F8F1E1] group-hover:text-[#E7D28A] transition-colors leading-snug">
