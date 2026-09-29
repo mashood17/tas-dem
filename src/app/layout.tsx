@@ -1,16 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
   display: "swap",
 });
@@ -63,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${montserrat.variable} h-full scroll-smooth antialiased selection:bg-[#B89B43] selection:text-[#1A1510]`}
+      className={`${cormorant.variable} ${manrope.variable} ${playfair.variable} h-full scroll-smooth antialiased selection:bg-[#B89B43] selection:text-[#1A1510]`}
     >
       <body className="min-h-full bg-[#1A1510] text-[#F8F1E1] font-sans overflow-x-hidden">
         <CartProvider>{children}</CartProvider>

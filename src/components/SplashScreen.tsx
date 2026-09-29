@@ -9,108 +9,120 @@ interface SplashScreenProps {
 }
 
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
-  const [stage, setStage] = useState<"initial" | "glow" | "fly" | "done">("initial");
+  const [visible, setVisible] = useState(true);
+  const [contentStage, setContentStage] = useState<"enter" | "reveal" | "exit">("enter");
 
   useEffect(() => {
-    // Check if user has already seen splash in this session
-    const hasSeenSplash = typeof window !== "undefined" && sessionStorage.getItem("tasty_splash_seen");
-
-    // Check reduced motion
+    // Respect reduced motion preferences
     const prefersReducedMotion =
-      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Check if user has already seen splash screen in this session
+    const hasSeenSplash =
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("tasty_splash_seen");
 
     if (hasSeenSplash || prefersReducedMotion) {
-      setStage("done");
+      setVisible(false);
       onComplete();
       return;
     }
 
-    // Sequence timer: 0 -> 400ms glow -> 1400ms fly -> 1800ms done
-    const glowTimer = setTimeout(() => {
-      setStage("glow");
-    }, 400);
+    // Stage 1: Brand details reveal at 500ms
+    const revealTimer = setTimeout(() => {
+      setContentStage("reveal");
+    }, 500);
 
-    const flyTimer = setTimeout(() => {
-      setStage("fly");
-    }, 1300);
+    // Stage 2: Initiate smooth dissolve at 2100ms
+    const exitTimer = setTimeout(() => {
+      setContentStage("exit");
+    }, 2100);
 
+    // Stage 3: Complete transition at 2600ms
     const doneTimer = setTimeout(() => {
-      setStage("done");
+      setVisible(false);
       if (typeof window !== "undefined") {
         sessionStorage.setItem("tasty_splash_seen", "true");
       }
       onComplete();
-    }, 1900);
+    }, 2600);
 
     return () => {
-      clearTimeout(glowTimer);
-      clearTimeout(flyTimer);
+      clearTimeout(revealTimer);
+      clearTimeout(exitTimer);
       clearTimeout(doneTimer);
     };
   }, [onComplete]);
 
-  if (stage === "done") return null;
+  if (!visible) return null;
 
   return (
     <AnimatePresence>
-      <motion.div
-        key="splash-screen"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: stage === "fly" ? 0.95 : 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1510] overflow-hidden"
-      >
-        {/* Subtle Ambient Gold Aura */}
+      {contentStage !== "exit" ? (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: stage === "glow" || stage === "fly" ? 0.4 : 0,
-            scale: stage === "fly" ? 1.2 : 1,
-          }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="absolute w-[450px] h-[450px] rounded-full bg-radial from-[#B89B43]/30 via-[#6B4F24]/10 to-transparent blur-3xl pointer-events-none"
-        />
-
-        {/* Central Logo Box with Travel Transition */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={
-            stage === "fly"
-              ? {
-                  opacity: 0,
-                  scale: 0.35,
-                  x: typeof window !== "undefined" && window.innerWidth >= 768 ? "-38vw" : "-35vw",
-                  y: typeof window !== "undefined" ? "-44vh" : "-40vh",
-                }
-              : {
-                  opacity: 1,
-                  scale: stage === "glow" ? 1.05 : 1,
-                  x: 0,
-                  y: 0,
-                }
-          }
-          transition={{
-            duration: stage === "fly" ? 0.6 : 0.8,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="relative flex flex-col items-center justify-center p-6 text-center"
+          key="splash-screen-overlay"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1510] pointer-events-auto select-none"
         >
-          {/* Subtle Outer Hairline Ring Glow */}
-          <div className="relative p-4 rounded-full border border-[#E7D28A]/20 shadow-[0_0_50px_rgba(184,155,67,0.15)]">
-            <TastyLogo size={180} variant="gold" className="w-36 h-36 md:w-44 md:h-44" />
-          </div>
+          {/* Subtle Ambient Gold Radial Glow */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{
+              opacity: contentStage === "reveal" ? 0.35 : 0.15,
+              scale: contentStage === "reveal" ? 1.1 : 0.95,
+            }}
+            transition={{ duration: 1.4, ease: "easeOut" }}
+            className="absolute w-[500px] h-[500px] rounded-full bg-radial from-[#B89B43]/25 via-[#6B4F24]/10 to-transparent blur-3xl pointer-events-none"
+          />
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: stage === "glow" ? 1 : 0 }}
-            transition={{ duration: 0.5 }}
-            className="mt-6 text-xs uppercase tracking-[0.35em] text-[#E7D28A] font-medium font-sans"
-          >
-            Meal Shared Is A Memory Made!
-          </motion.p>
+          {/* Central Luxury Emblem & Brand Title */}
+          <div className="relative flex flex-col items-center justify-center px-6 text-center max-w-md">
+            {/* Logo Mark with Soft Entrance */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative p-5 rounded-full border border-[#E7D28A]/25 bg-gradient-to-b from-[#2A2217]/60 to-transparent shadow-[0_0_60px_rgba(184,155,67,0.18)]"
+            >
+              <TastyLogo size={140} variant="gold" className="w-28 h-28 sm:w-36 sm:h-36" />
+            </motion.div>
+
+            {/* Brand Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{
+                opacity: contentStage === "reveal" ? 1 : 0,
+                y: contentStage === "reveal" ? 0 : 12,
+              }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-6 space-y-2"
+            >
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-[#F8F1E1]">
+                TASTY RESTAURANT
+              </h1>
+
+              {/* Gold Divider Line */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: contentStage === "reveal" ? 1 : 0 }}
+                transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#E7D28A] to-transparent"
+              />
+
+              <p className="font-serif italic text-sm text-[#E7D28A] tracking-wider pt-1">
+                &ldquo;Meal Shared Is A Memory Made!&rdquo;
+              </p>
+
+              <p className="text-[10px] font-sans font-medium uppercase tracking-[0.3em] text-[#B89B43] pt-0.5">
+                BTM LAYOUT · BENGALURU
+              </p>
+            </motion.div>
+          </div>
         </motion.div>
-      </motion.div>
+      ) : null}
     </AnimatePresence>
   );
 }

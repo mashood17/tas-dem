@@ -11,6 +11,11 @@
     --warm-ivory: #F8F1E1;
     --text-muted: #C9B68C;
   }
+
+  html {
+    scroll-padding-top: 5.5rem;
+    scroll-behavior: smooth;
+  }
 }
 
 @theme {
@@ -23,17 +28,18 @@
   --color-cream: #F8F1E1;
   --color-goldmuted: #C9B68C;
 
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-sans: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, -apple-system, sans-serif;
 }
 
 /* Custom Typography Utilities */
 .font-serif {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.015em;
 }
 
 .font-sans {
-  font-family: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-manrope), system-ui, -apple-system, sans-serif;
 }
 
 /* Luxury Gold Hairline & Accent Utilities */

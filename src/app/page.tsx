@@ -38,7 +38,7 @@ export default function Home() {
       {/* Main Page Content */}
       <div className={`transition-opacity duration-700 ${splashFinished ? "opacity-100" : "opacity-90"}`}>
         <Navbar />
-        <HeroSection />
+        <HeroSection isReady={splashFinished} />
         <AboutSection />
         <FlavoursSection />
         <GallerySection />
@@ -59,7 +59,7 @@ export default function Home() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3.5 rounded-full bg-emerald-600 text-white shadow-2xl hover:bg-emerald-500 hover:scale-110 transition-all flex items-center justify-center group"
+          className="p-3.5 rounded-full bg-emerald-600 text-white shadow-2xl hover:bg-emerald-500 hover:scale-105 transition-all duration-300 flex items-center justify-center group"
           aria-label="Enquire on WhatsApp"
         >
           <MessageCircle className="w-6 h-6" />
@@ -70,7 +70,7 @@ export default function Home() {
 
         <a
           href={`tel:${RESTAURANT_CONFIG.primaryPhone.replace(/\s+/g, "")}`}
-          className="p-3.5 rounded-full bg-[#B89B43] text-[#1A1510] shadow-2xl hover:bg-[#E7D28A] hover:scale-110 transition-all flex items-center justify-center group"
+          className="p-3.5 rounded-full bg-[#B89B43] text-[#1A1510] shadow-2xl hover:bg-[#E7D28A] hover:scale-105 transition-all duration-300 flex items-center justify-center group"
           aria-label="Call Restaurant"
         >
           <PhoneCall className="w-6 h-6" />

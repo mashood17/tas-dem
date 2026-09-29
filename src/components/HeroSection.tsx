@@ -3,10 +3,51 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { UtensilsCrossed, MapPin, ChevronDown, Sparkles } from "lucide-react";
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  isReady?: boolean;
+}
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.85,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const imageVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.95, y: 16 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 1.0,
+      delay: 0.25,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+export default function HeroSection({ isReady = true }: HeroSectionProps) {
   const scrollToContact = (e: React.MouseEvent) => {
     e.preventDefault();
     const contactEl = document.getElementById("contact");
@@ -18,7 +59,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 md:pb-24 bg-[#1A1510] overflow-hidden bg-hero-glow"
+      className="scroll-mt-24 relative min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 md:pb-24 bg-[#1A1510] overflow-hidden bg-hero-glow"
     >
       {/* Background Decorative Gold Ambient Gradients */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] bg-radial from-[#B89B43]/15 via-[#3B2E1F]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
@@ -29,67 +70,79 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          {/* Left Column: Text Content */}
+          {/* Left Column: Staged Hero Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isReady ? "visible" : "hidden"}
             className="lg:col-span-7 text-center lg:text-left space-y-6"
           >
             {/* Tagline Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3B2E1F]/80 border border-[#B89B43]/40 shadow-inner">
-              <Sparkles className="w-3.5 h-3.5 text-[#E7D28A]" />
-              <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#E7D28A] font-sans">
-                AN EXPERIENCE WORTH SHARING
-              </span>
-            </div>
+            <motion.div variants={itemVariants} className="inline-block">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3B2E1F]/80 border border-[#B89B43]/40 shadow-inner">
+                <Sparkles className="w-3.5 h-3.5 text-[#E7D28A]" />
+                <span className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[#E7D28A] font-sans">
+                  AN EXPERIENCE WORTH SHARING
+                </span>
+              </div>
+            </motion.div>
 
             {/* Main Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#F8F1E1] leading-[1.12] tracking-tight">
+            <motion.h1
+              variants={itemVariants}
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#F8F1E1] leading-[1.12] tracking-tight"
+            >
               Where Every Meal <br className="hidden sm:inline" />
               <span className="gold-text-gradient italic font-normal">Becomes a Memory.</span>
-            </h1>
+            </motion.h1>
 
             {/* Supporting Text */}
-            <p className="font-sans text-base sm:text-lg text-[#C9B68C] max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            <motion.p
+              variants={itemVariants}
+              className="font-sans text-base sm:text-lg text-[#C9B68C] max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal"
+            >
               Discover rich flavours, freshly prepared favourites, and memorable moments at Tasty Restaurant, BTM Layout. Authentic Mandi, Tandoori delicacies &amp; classic Indian cuisine.
-            </p>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3"
+            >
               <Link
                 href="/menu"
-                className="gold-btn-gradient w-full sm:w-auto px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-3 shadow-xl group"
+                className="gold-btn-gradient w-full sm:w-auto px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-3 shadow-xl group transition-all"
               >
-                <UtensilsCrossed className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform" />
+                <UtensilsCrossed className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform duration-300" />
                 <span>Explore Our Menu</span>
               </Link>
 
               <a
                 href="#contact"
                 onClick={scrollToContact}
-                className="gold-outline-btn w-full sm:w-auto px-8 py-4 rounded-full font-sans font-semibold text-xs tracking-widest uppercase flex items-center justify-center gap-2"
+                className="gold-outline-btn w-full sm:w-auto px-8 py-4 rounded-full font-sans font-semibold text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-all"
               >
                 <MapPin className="w-4 h-4 text-[#E7D28A]" />
                 <span>Find Us</span>
               </a>
-            </div>
+            </motion.div>
 
             {/* Small Brand Tagline */}
-            <div className="pt-4 flex items-center justify-center lg:justify-start gap-3 text-xs text-[#C9B68C]/80 italic font-serif">
+            <motion.div
+              variants={itemVariants}
+              className="pt-3 flex items-center justify-center lg:justify-start gap-3 text-xs text-[#C9B68C]/80 italic font-serif"
+            >
               <span className="h-[1px] w-8 bg-[#6B4F24]" />
               <span>&ldquo;Meal Shared Is A Memory Made!&rdquo;</span>
               <span className="h-[1px] w-8 bg-[#6B4F24]" />
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Right Column: Hero Food Imagery */}
+          {/* Right Column: Hero Food Imagery Reveal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            variants={imageVariants}
+            initial="hidden"
+            animate={isReady ? "visible" : "hidden"}
             className="lg:col-span-5 flex justify-center relative"
           >
             {/* Outer Decorative Ring Frame */}
@@ -111,7 +164,7 @@ export default function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1510]/70 via-transparent to-transparent pointer-events-none" />
 
                 {/* Floating Badge */}
-                <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-6 p-3 sm:p-4 rounded-xl glass-card backdrop-blur-md border border-[#E7D28A]/30 flex items-center justify-between">
+                <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-6 p-3 sm:p-4 rounded-xl glass-card backdrop-blur-md border border-[#E7D28A]/30 flex items-center justify-between shadow-lg">
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-[#B89B43] font-semibold">Signature Dish</p>
                     <p className="text-sm font-serif font-bold text-[#F8F1E1]">Royal Chicken Mandi Feast</p>
@@ -134,11 +187,16 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll Down Indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-70 hover:opacity-100 transition-opacity">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isReady ? { opacity: 0.7 } : { opacity: 0 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 hover:opacity-100 transition-opacity"
+      >
         <a href="#about" aria-label="Scroll to About section" className="text-[#E7D28A]">
           <ChevronDown className="w-5 h-5 animate-bounce" />
         </a>
-      </div>
+      </motion.div>
     </section>
   );
 }

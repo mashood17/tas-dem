@@ -16,6 +16,12 @@ import {
   ChevronDown,
   MessageCircle,
   X,
+  Menu as MenuIcon,
+  Home,
+  Info,
+  Image as ImageIcon,
+  Star,
+  Phone,
   PhoneCall,
   UtensilsCrossed,
 } from "lucide-react";
@@ -40,6 +46,7 @@ export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dietaryFilter, setDietaryFilter] = useState<"all" | "veg" | "non-veg">("all");
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Filtered menu items
   const filteredItems = useMemo(() => {
@@ -141,7 +148,7 @@ export default function MenuPage() {
                 className="gold-btn-gradient px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg relative group"
                 aria-label="View Order Cart"
               >
-                <ShoppingBag className="w-4 h-4 text-[#1A1510] group-hover:scale-110 transition-transform" />
+                <ShoppingBag className="w-4 h-4 text-[#1A1510] group-hover:scale-105 transition-transform duration-200" />
                 <span className="font-sans">Cart</span>
                 {totalItems > 0 && (
                   <span className="px-1.5 py-0.5 rounded-full bg-[#1A1510] text-[#E7D28A] text-[10px] font-bold">
@@ -149,10 +156,83 @@ export default function MenuPage() {
                   </span>
                 )}
               </button>
+
+              {/* Mobile Hamburger Navigation Button */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden min-w-[42px] min-h-[42px] p-2 text-[#E7D28A] hover:text-white rounded-lg bg-[#2A2217] border border-[#6B4F24]/50 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#B89B43] active:bg-[#3B2E1F]"
+                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
+              </button>
             </div>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer for Menu Page */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              key="menu-mobile-nav"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="md:hidden border-b border-[#6B4F24]/50 bg-[#1A1510] shadow-2xl max-h-[calc(100dvh-4.5rem)] overflow-y-auto"
+            >
+              <div className="px-5 py-5 space-y-2 flex flex-col" aria-label="Mobile Navigation Links">
+                {[
+                  { name: "Home", href: "/#home", icon: <Home className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "About", href: "/#about", icon: <Info className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Flavours", href: "/#flavours", icon: <Sparkles className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Gallery", href: "/#gallery", icon: <ImageIcon className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Reviews", href: "/#reviews", icon: <Star className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Contact", href: "/#contact", icon: <Phone className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Menu", href: "/menu", icon: <UtensilsCrossed className="w-4 h-4 text-[#B89B43]" /> },
+                ].map((item) => {
+                  const isCurrent = item.href === "/menu";
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`min-h-[48px] px-4 py-3 rounded-xl flex items-center justify-between text-base font-serif tracking-wide transition-colors border cursor-pointer select-none active:bg-[#3B2E1F] ${
+                        isCurrent
+                          ? "bg-[#2A2217] text-[#E7D28A] border-[#B89B43]/50 font-bold shadow-md"
+                          : "text-[#F8F1E1]/90 hover:text-[#E7D28A] hover:bg-[#2A2217]/50 border-transparent"
+                      }`}
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className="w-6 h-6 rounded-lg bg-[#2A2217] flex items-center justify-center border border-[#6B4F24]/40">
+                          {item.icon}
+                        </span>
+                        <span>{item.name}</span>
+                      </span>
+
+                      {isCurrent ? (
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#E7D28A] shadow-sm shadow-[#E7D28A]" />
+                      ) : (
+                        <span className="text-xs text-[#B89B43]/60">→</span>
+                      )}
+                    </a>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
+
+      {/* Mobile Drawer Overlay Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-30 md:hidden"
+          aria-hidden="true"
+        />
+      )}
 
       {/* ================= HERO SECTION ================= */}
       <section className="relative py-16 md:py-24 bg-gradient-to-b from-[#1A1510] via-[#2A2217] to-[#1A1510] border-b border-[#3B2E1F] overflow-hidden">
@@ -163,7 +243,12 @@ export default function MenuPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:col-span-7 space-y-4 text-center lg:text-left"
+            >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3B2E1F]/80 border border-[#B89B43]/40">
                 <Sparkles className="w-3.5 h-3.5 text-[#E7D28A]" />
                 <span className="text-[10px] font-semibold tracking-[0.25em] uppercase text-[#E7D28A] font-sans">
@@ -171,32 +256,37 @@ export default function MenuPage() {
                 </span>
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-[#F8F1E1] leading-tight">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-[#F8F1E1] leading-tight tracking-tight">
                 Every Meal <br />
                 <span className="gold-text-gradient italic font-normal">Tells a Story.</span>
               </h1>
 
-              <p className="font-sans text-sm sm:text-base text-[#C9B68C] max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              <p className="font-sans text-sm sm:text-base text-[#C9B68C] max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
                 Explore flavours made for sharing, savouring, and remembering. From Arabian mandi platters and tandoori charcoal grills to traditional Indian breads and spicy wok noodles.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <button
                   onClick={scrollToCatalog}
-                  className="gold-btn-gradient px-8 py-3.5 rounded-full font-sans font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl group"
+                  className="gold-btn-gradient px-8 py-3.5 rounded-full font-sans font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl group transition-all duration-300 hover:shadow-[#B89B43]/20"
                 >
-                  <UtensilsCrossed className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform" />
+                  <UtensilsCrossed className="w-4 h-4 text-[#1A1510] group-hover:rotate-12 transition-transform duration-300" />
                   <span>Explore the Menu</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-[#1A1510]" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#1A1510] group-hover:translate-y-0.5 transition-transform duration-300" />
                 </button>
 
                 <p className="text-xs text-[#C9B68C]/70 italic font-serif">
                   &ldquo;Meal Shared Is A Memory Made!&rdquo;
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="hidden lg:flex lg:col-span-5 relative justify-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="hidden lg:flex lg:col-span-5 relative justify-center"
+            >
               <div className="relative w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden gold-border-glow shadow-2xl group">
                 <Image
                   src="/images/hero_mandi.jpg"
@@ -204,7 +294,7 @@ export default function MenuPage() {
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-104 transition-transform duration-800 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1510]/80 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl glass-card backdrop-blur-md border border-[#E7D28A]/30">
@@ -212,7 +302,7 @@ export default function MenuPage() {
                   <p className="text-sm font-serif font-bold text-[#F8F1E1]">Authentic Arabian Chicken Mandi</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -232,7 +322,7 @@ export default function MenuPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search dishes (e.g. Butter Naan, Mandi, Dal Tadka)..."
-                className="w-full pl-10 pr-9 py-2.5 rounded-full bg-[#2A2217] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/60 focus:outline-none focus:border-[#E7D28A] transition-colors"
+                className="w-full pl-10 pr-9 py-2.5 rounded-full bg-[#2A2217] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/60 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200"
               />
               {searchQuery && (
                 <button
@@ -370,7 +460,7 @@ export default function MenuPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="glass-card rounded-2xl overflow-hidden border border-[#6B4F24]/30 hover:border-[#B89B43]/50 transition-all flex flex-col justify-between group shadow-lg"
+                  className="glass-card rounded-2xl overflow-hidden border border-[#6B4F24]/30 hover:border-[#B89B43]/60 hover:shadow-2xl hover:shadow-[#B89B43]/5 transition-all duration-300 flex flex-col justify-between group shadow-lg"
                 >
                   {/* Image Container - Hidden on mobile view, visible on sm and desktop */}
                   <div className="hidden sm:block relative aspect-[16/10] overflow-hidden bg-[#2A2217]">
@@ -379,7 +469,7 @@ export default function MenuPage() {
                       alt={dish.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="object-cover group-hover:scale-104 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1510] via-transparent to-transparent opacity-70" />
 
@@ -522,7 +612,7 @@ export default function MenuPage() {
               rel="noopener noreferrer"
               className="text-[#E7D28A] underline font-semibold"
             >
-              +{RESTAURANT_CONFIG.activeWhatsAppNumber}
+              +91 89045 16291
             </a>{" "}
             or call{" "}
             <a

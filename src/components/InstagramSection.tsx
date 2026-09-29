@@ -64,7 +64,13 @@ export default function InstagramSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
+        >
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#B89B43]" />
@@ -72,11 +78,11 @@ export default function InstagramSection() {
                 FOLLOW THE FLAVOUR
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F8F1E1]">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F8F1E1] tracking-tight">
               Stay Connected <span className="gold-text-gradient italic font-normal">with Tasty.</span>
             </h2>
-            <p className="font-sans text-sm text-[#C9B68C]">
-              Join our food journey on Instagram <span className="text-[#E7D28A] font-semibold">@tasty_restaurant_btm</span>
+            <p className="font-sans text-sm text-[#C9B68C] font-light">
+              Join our food journey on Instagram <span className="text-[#E7D28A] font-medium">@tasty_restaurant_btm</span>
             </p>
           </div>
 
@@ -84,13 +90,13 @@ export default function InstagramSection() {
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="gold-outline-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-sans font-bold text-xs tracking-widest uppercase self-start md:self-auto shadow-md"
+            className="gold-outline-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-sans font-bold text-xs tracking-widest uppercase self-start md:self-auto shadow-md transition-all duration-300 hover:shadow-[#B89B43]/20"
           >
             <InstagramIcon className="w-4 h-4 text-[#E7D28A]" />
             <span>Follow Us on Instagram</span>
             <ExternalLink className="w-3.5 h-3.5 text-[#E7D28A]" />
           </a>
-        </div>
+        </motion.div>
 
         {/* Tiles Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
@@ -102,8 +108,8 @@ export default function InstagramSection() {
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.7, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="relative aspect-square rounded-2xl overflow-hidden group gold-border shadow-lg cursor-pointer"
             >
               <Image
@@ -111,18 +117,18 @@ export default function InstagramSection() {
                 alt={`Tasty Restaurant Instagram Post ${post.title}`}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
-                className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                className="object-cover group-hover:scale-104 transition-transform duration-800 ease-[cubic-bezier(0.16,1,0.3,1)]"
               />
 
               {/* Hover Overlay */}
               <div className="absolute inset-0 bg-[#1A1510]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-4 text-center">
-                <InstagramIcon className="w-8 h-8 text-[#E7D28A]" />
+                <InstagramIcon className="w-7 h-7 text-[#E7D28A]" />
                 <div className="flex items-center gap-4 text-xs font-semibold text-[#F8F1E1] font-sans">
                   <span className="flex items-center gap-1">
                     <Heart className="w-3.5 h-3.5 fill-[#E7D28A] text-[#E7D28A]" /> {post.likes}
                   </span>
                 </div>
-                <span className="text-[10px] uppercase tracking-wider text-[#B89B43] font-semibold">
+                <span className="text-[10px] uppercase tracking-wider text-[#B89B43] font-semibold font-sans">
                   View Post
                 </span>
               </div>

@@ -2,12 +2,24 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { MapPin, HeartHandshake, ShieldCheck, Utensils } from "lucide-react";
+
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.85,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-20 md:py-32 bg-[#3B2E1F]/40 relative overflow-hidden">
+    <section id="about" className="scroll-mt-24 py-20 md:py-32 bg-[#3B2E1F]/40 relative overflow-hidden">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#B89B43]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -16,10 +28,10 @@ export default function AboutSection() {
           
           {/* Left Column: Image Composition */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="lg:col-span-6 relative"
           >
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden gold-border-glow shadow-2xl group">
@@ -28,12 +40,12 @@ export default function AboutSection() {
                 alt="Tasty Restaurant Dining Ambience in BTM Layout"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                className="object-cover group-hover:scale-104 transition-transform duration-800 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1510]/80 via-transparent to-transparent" />
 
               <div className="absolute bottom-6 left-6 right-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1510]/80 backdrop-blur-md border border-[#B89B43]/40 text-[#E7D28A] text-xs font-sans font-semibold">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1510]/85 backdrop-blur-md border border-[#B89B43]/40 text-[#E7D28A] text-xs font-sans font-semibold shadow-md">
                   <MapPin className="w-3.5 h-3.5 text-[#B89B43]" />
                   <span>BTM Layout · Maruthi Nagar · Bengaluru</span>
                 </div>
@@ -41,7 +53,7 @@ export default function AboutSection() {
             </div>
 
             {/* Accent Floating Badge */}
-            <div className="hidden sm:flex absolute -bottom-6 -right-6 bg-[#2A2217] border border-[#B89B43]/40 p-5 rounded-2xl shadow-2xl items-center gap-4 max-w-xs backdrop-blur-md">
+            <div className="hidden sm:flex absolute -bottom-6 -right-6 bg-[#2A2217]/95 border border-[#B89B43]/40 p-5 rounded-2xl shadow-2xl items-center gap-4 max-w-xs backdrop-blur-md">
               <div className="w-12 h-12 rounded-full bg-[#B89B43]/20 flex items-center justify-center shrink-0">
                 <HeartHandshake className="w-6 h-6 text-[#E7D28A]" />
               </div>
@@ -54,16 +66,16 @@ export default function AboutSection() {
 
           {/* Right Column: Editorial Text */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="lg:col-span-6 space-y-6"
           >
             {/* Section Tag */}
             <div className="flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#B89B43]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B89B43] font-sans">
+              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B89B43] font-sans">
                 OUR STORY
               </span>
             </div>
@@ -83,27 +95,27 @@ export default function AboutSection() {
             </p>
 
             {/* Brand Highlights List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="p-4 rounded-xl bg-[#2A2217]/60 border border-[#6B4F24]/30 flex items-start gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+              <div className="p-4 rounded-xl bg-[#2A2217]/70 border border-[#6B4F24]/35 flex items-start gap-3 transition-colors hover:border-[#B89B43]/40">
                 <Utensils className="w-5 h-5 text-[#E7D28A] shrink-0 mt-0.5" />
                 <div>
                   <h3 className="font-serif text-sm font-bold text-[#F8F1E1]">Authentic Mandi</h3>
-                  <p className="text-xs text-[#C9B68C]/80 mt-0.5">Slow-cooked fragrant rice &amp; succulent roast chicken</p>
+                  <p className="text-xs text-[#C9B68C]/80 mt-0.5 font-sans">Slow-cooked fragrant rice &amp; succulent roast chicken</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#2A2217]/60 border border-[#6B4F24]/30 flex items-start gap-3">
+              <div className="p-4 rounded-xl bg-[#2A2217]/70 border border-[#6B4F24]/35 flex items-start gap-3 transition-colors hover:border-[#B89B43]/40">
                 <ShieldCheck className="w-5 h-5 text-[#E7D28A] shrink-0 mt-0.5" />
                 <div>
                   <h3 className="font-serif text-sm font-bold text-[#F8F1E1]">Tandoori &amp; Curries</h3>
-                  <p className="text-xs text-[#C9B68C]/80 mt-0.5">Fresh ingredients, authentic spices &amp; signature recipes</p>
+                  <p className="text-xs text-[#C9B68C]/80 mt-0.5 font-sans">Fresh ingredients, authentic spices &amp; signature recipes</p>
                 </div>
               </div>
             </div>
 
             {/* Location Address Badge */}
             <div className="pt-2 text-xs font-sans text-[#E7D28A]/90 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#B89B43]" />
+              <MapPin className="w-4 h-4 text-[#B89B43] shrink-0" />
               <span>Location: 104/2, 20th Main, Maruthi Nagar Main Road, BTM 1st Stage, Bengaluru</span>
             </div>
           </motion.div>

@@ -50,7 +50,7 @@ export default function TastyLogo({
 
           {/* Arc Text: TASTY RESTAURANT */}
           <text
-            fontFamily="'Playfair Display', Georgia, serif"
+            fontFamily="'Cormorant Garamond', 'Playfair Display', Georgia, serif"
             fontSize="28"
             fontWeight="700"
             fill={isGold ? "url(#logoGoldGradient)" : "#F8F1E1"}
@@ -64,7 +64,7 @@ export default function TastyLogo({
 
           {/* Arc Text: SINCE 2003 */}
           <text
-            fontFamily="'Montserrat', sans-serif"
+            fontFamily="'Manrope', sans-serif"
             fontSize="20"
             fontWeight="500"
             fill={isGold ? "url(#logoGoldGradient)" : "#F8F1E1"}

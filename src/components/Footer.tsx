@@ -45,9 +45,9 @@ export default function Footer() {
           {/* Brand & Logo Column */}
           <div className="md:col-span-4 space-y-4">
             <Link href="/" className="flex items-center gap-3 group">
-              <TastyLogo size={44} variant="gold" className="w-11 h-11 group-hover:scale-105 transition-transform" />
+              <TastyLogo size={44} variant="gold" className="w-11 h-11 group-hover:scale-105 transition-transform duration-300" />
               <div>
-                <span className="font-serif text-xl font-bold tracking-wider text-[#F8F1E1] group-hover:text-[#E7D28A] transition-colors">
+                <span className="font-serif text-xl font-bold tracking-wider text-[#F8F1E1] group-hover:text-[#E7D28A] transition-colors duration-300">
                   TASTY RESTAURANT
                 </span>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-[#B89B43] font-medium font-sans">
@@ -56,11 +56,11 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="font-serif italic text-[#E7D28A]/90 text-sm">
+            <p className="font-serif italic text-[#E7D28A]/90 text-sm tracking-wide">
               &ldquo;Meal Shared Is A Memory Made!&rdquo;
             </p>
 
-            <p className="font-sans text-xs text-[#C9B68C] leading-relaxed max-w-sm">
+            <p className="font-sans text-xs text-[#C9B68C] leading-relaxed max-w-sm font-light">
               Serving rich Indian curries, authentic Mandi platters, tandoori delicacies, and contemporary Asian specialities in Maruthi Nagar, BTM 1st Stage.
             </p>
           </div>
@@ -70,29 +70,29 @@ export default function Footer() {
             <h4 className="font-sans text-xs font-bold uppercase tracking-widest text-[#B89B43]">
               Quick Navigation
             </h4>
-            <ul className="space-y-2 text-xs text-[#C9B68C] font-sans">
+            <ul className="space-y-2 text-xs text-[#C9B68C] font-sans font-light">
               <li>
-                <Link href="/" className="hover:text-[#E7D28A] transition-colors">Home</Link>
+                <Link href="/" className="hover:text-[#E7D28A] transition-colors duration-200">Home</Link>
               </li>
               <li>
-                <Link href="/menu" className="hover:text-[#E7D28A] transition-colors font-semibold text-[#E7D28A]/90">
+                <Link href="/menu" className="hover:text-[#E7D28A] transition-colors duration-200 font-medium text-[#E7D28A]/90">
                   Digital Menu (/menu)
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="hover:text-[#E7D28A] transition-colors">Our Story</Link>
+                <Link href="/#about" className="hover:text-[#E7D28A] transition-colors duration-200">Our Story</Link>
               </li>
               <li>
-                <Link href="/#flavours" className="hover:text-[#E7D28A] transition-colors">The Flavours</Link>
+                <Link href="/#flavours" className="hover:text-[#E7D28A] transition-colors duration-200">The Flavours</Link>
               </li>
               <li>
-                <Link href="/#gallery" className="hover:text-[#E7D28A] transition-colors">The Experience</Link>
+                <Link href="/#gallery" className="hover:text-[#E7D28A] transition-colors duration-200">The Experience</Link>
               </li>
               <li>
-                <Link href="/#reviews" className="hover:text-[#E7D28A] transition-colors">Guest Reviews</Link>
+                <Link href="/#reviews" className="hover:text-[#E7D28A] transition-colors duration-200">Guest Reviews</Link>
               </li>
               <li>
-                <Link href="/#contact" className="hover:text-[#E7D28A] transition-colors">Find Us</Link>
+                <Link href="/#contact" className="hover:text-[#E7D28A] transition-colors duration-200">Find Us</Link>
               </li>
             </ul>
           </div>
@@ -102,11 +102,11 @@ export default function Footer() {
             <h4 className="font-sans text-xs font-bold uppercase tracking-widest text-[#B89B43]">
               Services
             </h4>
-            <ul className="space-y-2.5 text-xs text-[#C9B68C] font-sans">
+            <ul className="space-y-2.5 text-xs text-[#C9B68C] font-sans font-light">
               <li>
                 <Link
                   href="/menu"
-                  className="hover:text-[#E7D28A] transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-[#E7D28A] transition-colors duration-200 inline-flex items-center gap-1.5"
                 >
                   <span>Explore Menu</span>
                   <ArrowRight className="w-3 h-3 text-[#B89B43]" />
@@ -117,7 +117,7 @@ export default function Footer() {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5 text-emerald-400/90"
+                  className="hover:text-emerald-400 transition-colors duration-200 inline-flex items-center gap-1.5 text-emerald-400/90"
                 >
                   <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
                   <span>WhatsApp Delivery</span>
@@ -128,7 +128,7 @@ export default function Footer() {
                   href={RESTAURANT_CONFIG.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E7D28A] transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-[#E7D28A] transition-colors duration-200 inline-flex items-center gap-1.5"
                 >
                   <InstagramIcon className="w-3.5 h-3.5 text-[#E7D28A]" />
                   <span>Instagram</span>
@@ -142,12 +142,12 @@ export default function Footer() {
             <h4 className="font-sans text-xs font-bold uppercase tracking-widest text-[#B89B43]">
               Location &amp; Phone
             </h4>
-            <div className="space-y-2 text-xs text-[#C9B68C] font-sans">
+            <div className="space-y-2 text-xs text-[#C9B68C] font-sans font-light">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#B89B43] shrink-0 mt-0.5" />
                 <span>{RESTAURANT_CONFIG.address}</span>
               </p>
-              <p className="flex items-center gap-2 text-[#E7D28A] font-semibold">
+              <p className="flex items-center gap-2 text-[#E7D28A] font-medium font-sans">
                 <Phone className="w-4 h-4 text-[#B89B43] shrink-0" />
                 <span>{RESTAURANT_CONFIG.primaryPhone}</span>
               </p>
@@ -162,7 +162,7 @@ export default function Footer() {
 
           <button
             onClick={scrollToTop}
-            className="p-2.5 rounded-full bg-[#2A2217] border border-[#6B4F24] text-[#E7D28A] hover:bg-[#B89B43] hover:text-[#1A1510] transition-colors flex items-center gap-2"
+            className="p-2.5 rounded-full bg-[#2A2217] border border-[#6B4F24] text-[#E7D28A] hover:bg-[#B89B43] hover:text-[#1A1510] transition-colors duration-300 flex items-center gap-2"
             aria-label="Scroll to top"
           >
             <span className="text-[10px] font-bold uppercase tracking-wider">Back to Top</span>

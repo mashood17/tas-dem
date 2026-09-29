@@ -12,29 +12,35 @@ import {
   ExternalLink,
   Building2,
 } from "lucide-react";
+import { RESTAURANT_CONFIG } from "@/config/restaurant";
 
-const PRIMARY_PHONE = "+91 89045 16291";
-const PHONE_1 = "+91 89045 16291";
-const PHONE_2 = "+91 7711006608";
-const PHONE_3 = "+91 7711006609";
+const PRIMARY_PHONE = RESTAURANT_CONFIG.primaryPhone;
+const PHONE_1 = RESTAURANT_CONFIG.primaryPhone; // +91 89045 16291 (Official WhatsApp & Main Line)
+const PHONE_2 = RESTAURANT_CONFIG.additionalPhones[0]; // +91 7711006608
+const PHONE_3 = RESTAURANT_CONFIG.additionalPhones[1]; // +91 7711006609
 
-const RESERVATION_URL =
-  "https://www.swiggy.com/restaurants/tasty-restaurant-layout-btm-bangalore-465184/dineout?is_retargeting=true&media_source=GoogleReserve&utm_campaign=GoogleMap&utm_source=GoogleReserve";
-const MAPS_DIRECTIONS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Tasty+Restaurant+104/2+20th+Main+Maruthi+Nagar+Main+Road+1st+Cross+BTM+1st+Stage+Bengaluru+Karnataka+560029";
-const WHATSAPP_URL =
-  "https://wa.me/917711006608?text=Hello%20Tasty%20Restaurant,%20I%20would%20like%20to%20enquire%20about%20your%20menu%20and%20delivery%20options.";
+const RESERVATION_URL = RESTAURANT_CONFIG.reservationUrl;
+const MAPS_DIRECTIONS_URL = RESTAURANT_CONFIG.googleMapsDirectionsUrl;
+const WHATSAPP_URL = `https://wa.me/${RESTAURANT_CONFIG.activeWhatsAppNumber}?text=${encodeURIComponent(
+  "Hello Tasty Restaurant, I would like to enquire about your menu and delivery options."
+)}`;
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="py-20 md:py-32 bg-[#3B2E1F]/30 relative overflow-hidden">
+    <section id="contact" className="scroll-mt-24 py-20 md:py-32 bg-[#3B2E1F]/30 relative overflow-hidden">
       {/* Background Radial Glow */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#B89B43]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+        >
           <div className="flex items-center justify-center gap-3">
             <span className="w-8 h-[2px] bg-[#B89B43]" />
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B89B43] font-sans">
@@ -43,24 +49,24 @@ export default function ContactSection() {
             <span className="w-8 h-[2px] bg-[#B89B43]" />
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F8F1E1]">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F8F1E1] tracking-tight">
             Come, Make Yourself <span className="gold-text-gradient italic font-normal">at Home.</span>
           </h2>
 
-          <p className="font-sans text-sm sm:text-base text-[#C9B68C]">
+          <p className="font-sans text-sm sm:text-base text-[#C9B68C] font-light max-w-xl mx-auto">
             Located in the heart of Maruthi Nagar, BTM 1st Stage, Bengaluru. We look forward to serving you!
           </p>
-        </div>
+        </motion.div>
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
           {/* Left Column: Business Info Cards */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 space-y-6"
           >
             {/* Address Card */}
@@ -78,7 +84,7 @@ export default function ContactSection() {
               <div className="flex items-start gap-3 pt-2 text-sm text-[#C9B68C]">
                 <MapPin className="w-5 h-5 text-[#E7D28A] shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  104/2, 20th Main, Maruthi Nagar Main Road, 1st Cross, BTM 1st Stage, Bengaluru, Karnataka 560029.
+                  {RESTAURANT_CONFIG.address}
                 </span>
               </div>
             </div>
@@ -90,12 +96,12 @@ export default function ContactSection() {
               <div className="glass-card p-6 rounded-2xl border border-[#6B4F24]/40 space-y-3">
                 <div className="flex items-center gap-2 text-[#E7D28A]">
                   <PhoneCall className="w-4 h-4 text-[#B89B43]" />
-                  <span className="text-xs uppercase tracking-wider font-semibold font-sans">Contact Numbers</span>
+                  <span className="text-xs uppercase tracking-wider font-semibold font-sans">Contact &amp; WhatsApp</span>
                 </div>
                 <div className="space-y-1 text-xs text-[#F8F1E1]">
-                  <p className="font-semibold text-sm text-[#E7D28A]">{PHONE_1} (Main)</p>
-                  <p className="text-[#C9B68C]">{PHONE_2}</p>
-                  <p className="text-[#C9B68C]">{PHONE_3}</p>
+                  <p className="font-semibold text-sm text-[#E7D28A]">{PHONE_1} (Main &amp; WhatsApp)</p>
+                  <p className="text-[#C9B68C]">{PHONE_2} (Order Line)</p>
+                  <p className="text-[#C9B68C]">{PHONE_3} (Order Line)</p>
                 </div>
               </div>
 
@@ -106,7 +112,7 @@ export default function ContactSection() {
                   <span className="text-xs uppercase tracking-wider font-semibold font-sans">Opening Hours</span>
                 </div>
                 <div className="space-y-1 text-xs text-[#F8F1E1]">
-                  <p className="font-semibold text-sm text-[#E7D28A]">11:30 AM – 1:30 AM</p>
+                  <p className="font-semibold text-sm text-[#E7D28A]">{RESTAURANT_CONFIG.openingHours}</p>
                   <p className="text-[#C9B68C]">Open 7 Days a Week</p>
                   <p className="text-[10px] text-[#B89B43]">Late Night Dining Available</p>
                 </div>
@@ -152,16 +158,16 @@ export default function ContactSection() {
                 className="py-3.5 px-5 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-600/30 transition-colors font-sans font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400" />
-                <span>WhatsApp</span>
+                <span>WhatsApp (+91 89045 16291)</span>
               </a>
             </div>
           </motion.div>
 
           {/* Right Column: Google Maps Location Embed */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 relative"
           >

@@ -70,7 +70,7 @@ export default function CartDrawer() {
       message += `Special Instructions: ${specialInstructions.trim()}\n`;
     }
 
-    message += `\nPlease confirm the order and final amount. Thank you!`;
+    message += `\nPlease confirm availability, delivery (if applicable), and final amount. Thank you!`;
 
     const encoded = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${RESTAURANT_CONFIG.activeWhatsAppNumber}?text=${encoded}`;
@@ -246,7 +246,7 @@ export default function CartDrawer() {
                               value={customerName}
                               onChange={(e) => setCustomerName(e.target.value)}
                               placeholder="e.g. Ramesh Kumar"
-                              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A]"
+                              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200"
                               required
                             />
                           </div>
@@ -300,7 +300,7 @@ export default function CartDrawer() {
                                 onChange={(e) => setDeliveryAddress(e.target.value)}
                                 placeholder="House / Flat No, Street, Landmark, BTM Layout / area"
                                 rows={2}
-                                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A]"
+                                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200"
                                 required
                               />
                             </div>
@@ -317,7 +317,7 @@ export default function CartDrawer() {
                             value={specialInstructions}
                             onChange={(e) => setSpecialInstructions(e.target.value)}
                             placeholder="e.g. Less spicy, extra salsa, no onions"
-                            className="w-full px-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A]"
+                            className="w-full px-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200"
                           />
                         </div>
                       </div>
@@ -347,7 +347,7 @@ export default function CartDrawer() {
                       <span className="text-[#E7D28A] font-serif text-xl">₹{subtotal}</span>
                     </div>
                     <p className="text-[10px] text-[#C9B68C]/80 italic pt-1">
-                      * Final amount, taxes and delivery charges (if applicable) will be confirmed directly by Tasty Restaurant on WhatsApp.
+                      * Please note: Orders are not final until Tasty Restaurant confirms item availability and total amount on WhatsApp.
                     </p>
                   </div>
 
@@ -356,7 +356,7 @@ export default function CartDrawer() {
                     className="w-full py-4 rounded-xl font-sans font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl transition-all shadow-emerald-950/40"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Order on WhatsApp (wa.me)</span>
+                    <span>Order on WhatsApp (+91 89045 16291)</span>
                   </button>
                 </div>
               )}

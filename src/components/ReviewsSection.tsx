@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { Star, Quote, ExternalLink, ThumbsUp, Award } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { Star, Quote, ExternalLink, ThumbsUp } from "lucide-react";
 import { RESTAURANT_CONFIG } from "@/config/restaurant";
 
 const platformRatings = [
@@ -11,24 +11,24 @@ const platformRatings = [
     rating: "4.0",
     max: "5",
     count: "2,400+ reviews",
-    badgeColor: "from-orange-600/30 to-amber-700/20",
-    borderColor: "border-orange-500/40",
+    badgeColor: "from-orange-600/25 to-amber-700/15",
+    borderColor: "border-orange-500/35",
   },
   {
     platform: "Zomato",
     rating: "3.9",
     max: "5",
     count: "6,182+ votes",
-    badgeColor: "from-red-600/30 to-rose-800/20",
-    borderColor: "border-rose-500/40",
+    badgeColor: "from-red-600/25 to-rose-800/15",
+    borderColor: "border-rose-500/35",
   },
   {
     platform: "Facebook",
     rating: "5.0",
     max: "5",
     count: "5 recommendations",
-    badgeColor: "from-blue-600/30 to-indigo-800/20",
-    borderColor: "border-blue-500/40",
+    badgeColor: "from-blue-600/25 to-indigo-800/15",
+    borderColor: "border-blue-500/35",
   },
 ];
 
@@ -61,19 +61,37 @@ const customerReviews = [
 
 const EXTERNAL_REVIEWS_URL = RESTAURANT_CONFIG.googleMapsDirectionsUrl;
 
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
 export default function ReviewsSection() {
   return (
-    <section id="reviews" className="py-20 md:py-32 bg-[#1A1510] relative overflow-hidden">
+    <section id="reviews" className="scroll-mt-24 py-20 md:py-32 bg-[#1A1510] relative overflow-hidden">
       {/* Ambient Lighting */}
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-[#6B4F24]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <motion.div
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+        >
           <div className="flex items-center justify-center gap-3">
             <span className="w-8 h-[2px] bg-[#B89B43]" />
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B89B43] font-sans">
+            <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B89B43] font-sans">
               WHAT GUESTS SAY
             </span>
             <span className="w-8 h-[2px] bg-[#B89B43]" />
@@ -86,17 +104,17 @@ export default function ReviewsSection() {
           <p className="font-sans text-sm sm:text-base text-[#C9B68C]">
             Here is what food lovers in Bengaluru say about their dining experience with Tasty Restaurant.
           </p>
-        </div>
+        </motion.div>
 
         {/* Platform Rating Badges Bar */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           {platformRatings.map((item, idx) => (
             <motion.div
               key={item.platform}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: idx * 0.15 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               className={`p-6 rounded-2xl bg-gradient-to-br ${item.badgeColor} border ${item.borderColor} backdrop-blur-md flex items-center justify-between shadow-xl`}
             >
               <div>
@@ -123,7 +141,7 @@ export default function ReviewsSection() {
                     />
                   ))}
                 </div>
-                <span className="text-[10px] uppercase tracking-wider text-[#C9B68C]/70">Verified</span>
+                <span className="text-[10px] uppercase tracking-wider text-[#C9B68C]/70 font-sans">Verified</span>
               </div>
             </motion.div>
           ))}
@@ -134,10 +152,10 @@ export default function ReviewsSection() {
           {customerReviews.map((item, idx) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: idx * 0.15 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.75, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="glass-card p-8 rounded-2xl border border-[#6B4F24]/30 relative flex flex-col justify-between glass-card-hover"
             >
               <Quote className="w-10 h-10 text-[#B89B43]/20 absolute top-6 right-6 pointer-events-none" />
@@ -158,7 +176,7 @@ export default function ReviewsSection() {
               <div className="pt-6 mt-6 border-t border-[#6B4F24]/30 flex items-center justify-between">
                 <div>
                   <h3 className="font-serif text-sm font-bold text-[#F8F1E1]">{item.name}</h3>
-                  <p className="text-[11px] text-[#C9B68C]">{item.source}</p>
+                  <p className="text-[11px] text-[#C9B68C] font-sans">{item.source}</p>
                 </div>
 
                 <span className="px-2.5 py-1 rounded-full bg-[#B89B43]/15 border border-[#B89B43]/30 text-[#E7D28A] text-[10px] font-medium font-sans">
@@ -170,18 +188,24 @@ export default function ReviewsSection() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-16 text-center"
+        >
           <a
             href={EXTERNAL_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="gold-outline-btn inline-flex items-center gap-2 px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase shadow-lg"
+            className="gold-outline-btn inline-flex items-center gap-2 px-8 py-4 rounded-full font-sans font-bold text-xs tracking-widest uppercase shadow-lg transition-all"
           >
             <ThumbsUp className="w-4 h-4 text-[#E7D28A]" />
             <span>Read Guest Reviews</span>
             <ExternalLink className="w-3.5 h-3.5 text-[#E7D28A]" />
           </a>
-        </div>
+        </motion.div>
 
       </div>
     </section>
