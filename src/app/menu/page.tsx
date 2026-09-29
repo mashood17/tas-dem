@@ -190,7 +190,7 @@ export default function MenuPage() {
                   { name: "Gallery", href: "/#gallery", icon: <ImageIcon className="w-4 h-4 text-[#B89B43]" /> },
                   { name: "Reviews", href: "/#reviews", icon: <Star className="w-4 h-4 text-[#B89B43]" /> },
                   { name: "Contact", href: "/#contact", icon: <Phone className="w-4 h-4 text-[#B89B43]" /> },
-                  { name: "Menu", href: "/menu", icon: <UtensilsCrossed className="w-4 h-4 text-[#B89B43]" /> },
+                  { name: "Explore Menu", href: "/menu", icon: <UtensilsCrossed className="w-4 h-4 text-[#B89B43]" /> },
                 ].map((item) => {
                   const isCurrent = item.href === "/menu";
                   return (

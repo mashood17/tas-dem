@@ -191,17 +191,8 @@ export default function Navbar() {
               </Link>
             </nav>
 
-            {/* Mobile Actions: Menu Quick Link + Hamburger Button */}
-            <div className="flex items-center gap-2.5 md:hidden">
-              <Link
-                href="/menu"
-                onClick={() => setMobileMenuOpen(false)}
-                className="gold-btn-gradient px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md"
-              >
-                <UtensilsCrossed className="w-3 h-3 text-[#1A1510]" />
-                <span>Menu</span>
-              </Link>
-
+            {/* Mobile Action: Single Hamburger Navigation Button */}
+            <div className="flex items-center md:hidden">
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -227,40 +218,39 @@ export default function Navbar() {
               className="md:hidden border-b border-[#6B4F24]/50 bg-[#1A1510] shadow-2xl max-h-[calc(100dvh-4.5rem)] overflow-y-auto"
             >
               <div className="px-5 py-5 space-y-2 flex flex-col" aria-label="Mobile Navigation Links">
-                {navItems.map((item) => {
-                  const isMenuLink = item.href === "/menu";
-                  const isActive = isMenuLink
-                    ? pathname === "/menu"
-                    : pathname === "/" && activeSection === item.href.replace("/#", "");
+                {navItems
+                  .filter((item) => item.name !== "Menu")
+                  .map((item) => {
+                    const isActive = pathname === "/" && activeSection === item.href.replace("/#", "");
 
-                  return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.href)}
-                      className={`min-h-[48px] px-4 py-3 rounded-xl flex items-center justify-between text-base font-serif tracking-wide transition-colors border cursor-pointer select-none active:bg-[#3B2E1F] ${
-                        isActive
-                          ? "bg-[#2A2217] text-[#E7D28A] border-[#B89B43]/50 font-bold shadow-md"
-                          : "text-[#F8F1E1]/90 hover:text-[#E7D28A] hover:bg-[#2A2217]/50 border-transparent"
-                      }`}
-                    >
-                      <span className="flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-lg bg-[#2A2217] flex items-center justify-center border border-[#6B4F24]/40">
-                          {item.icon}
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        onClick={(e) => handleLinkClick(e, item.href)}
+                        className={`min-h-[48px] px-4 py-3 rounded-xl flex items-center justify-between text-base font-serif tracking-wide transition-colors border cursor-pointer select-none active:bg-[#3B2E1F] ${
+                          isActive
+                            ? "bg-[#2A2217] text-[#E7D28A] border-[#B89B43]/50 font-bold shadow-md"
+                            : "text-[#F8F1E1]/90 hover:text-[#E7D28A] hover:bg-[#2A2217]/50 border-transparent"
+                        }`}
+                      >
+                        <span className="flex items-center gap-3">
+                          <span className="w-6 h-6 rounded-lg bg-[#2A2217] flex items-center justify-center border border-[#6B4F24]/40">
+                            {item.icon}
+                          </span>
+                          <span>{item.name}</span>
                         </span>
-                        <span>{item.name}</span>
-                      </span>
 
-                      {isActive ? (
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#E7D28A] shadow-sm shadow-[#E7D28A]" />
-                      ) : (
-                        <span className="text-xs text-[#B89B43]/60">→</span>
-                      )}
-                    </a>
-                  );
-                })}
+                        {isActive ? (
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#E7D28A] shadow-sm shadow-[#E7D28A]" />
+                        ) : (
+                          <span className="text-xs text-[#B89B43]/60">→</span>
+                        )}
+                      </a>
+                    );
+                  })}
 
-                {/* Explore Full Digital Menu Action */}
+                {/* Single Explore Menu Action Button */}
                 <div className="pt-2">
                   <a
                     href="/menu"
@@ -268,7 +258,7 @@ export default function Navbar() {
                     className="gold-btn-gradient w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 rounded-xl font-sans font-bold text-xs uppercase tracking-widest shadow-lg cursor-pointer"
                   >
                     <UtensilsCrossed className="w-4 h-4 text-[#1A1510]" />
-                    <span>Explore Full Digital Menu</span>
+                    <span>Explore Menu</span>
                   </a>
                 </div>
 

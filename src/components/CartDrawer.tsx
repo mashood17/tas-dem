@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,7 +12,6 @@ import {
   MessageCircle,
   MapPin,
   User,
-  Clock,
   AlertCircle,
   ArrowRight,
 } from "lucide-react";
@@ -28,6 +27,31 @@ export default function CartDrawer() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [specialInstructions, setSpecialInstructions] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  // Lock body scroll when cart drawer is open to prevent background scrolling
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCartOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsCartOpen(false);
+      }
+    };
+    if (isCartOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isCartOpen, setIsCartOpen]);
 
   const handleWhatsAppOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,26 +112,27 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsCartOpen(false)}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto"
+            aria-hidden="true"
           />
 
-          {/* Drawer Container */}
-          <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+          {/* Drawer Container (Right-aligned, full width on mobile, max-w-md on sm+) */}
+          <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-full sm:max-w-md md:max-w-lg justify-end pointer-events-none">
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="w-screen max-w-md bg-[#1A1510] border-l border-[#6B4F24]/50 text-[#F8F1E1] shadow-2xl flex flex-col"
+              className="pointer-events-auto w-full h-full max-h-[100dvh] bg-[#1A1510] border-l border-[#6B4F24]/50 text-[#F8F1E1] shadow-2xl flex flex-col overflow-hidden"
             >
-              {/* Drawer Header */}
-              <div className="p-5 border-b border-[#3B2E1F] flex items-center justify-between bg-[#2A2217]/70">
+              {/* Drawer Header (shrink-0) */}
+              <div className="p-4 sm:p-5 border-b border-[#3B2E1F] flex items-center justify-between bg-[#2A2217]/90 shrink-0">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-[#B89B43]/20 flex items-center justify-center text-[#E7D28A]">
                     <ShoppingBag className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-serif text-lg font-bold text-[#F8F1E1]">Your Order Cart</h3>
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-[#F8F1E1]">Your Order Cart</h3>
                     <p className="text-[11px] text-[#C9B68C] font-sans">
                       {totalItems} {totalItems === 1 ? "item" : "items"} selected
                     </p>
@@ -126,7 +151,7 @@ export default function CartDrawer() {
                   )}
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="p-2 text-[#E7D28A] hover:text-white rounded-lg bg-[#3B2E1F]/60 border border-[#6B4F24]/40"
+                    className="p-2 text-[#E7D28A] hover:text-white rounded-lg bg-[#3B2E1F]/60 border border-[#6B4F24]/40 transition-colors"
                     aria-label="Close cart"
                   >
                     <X className="w-5 h-5" />
@@ -134,8 +159,8 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              {/* Drawer Body */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-6">
+              {/* Drawer Body (flex-1, min-h-0, overflow-y-auto) */}
+              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-3.5 sm:p-5 space-y-5 pb-8">
                 {cart.length === 0 ? (
                   <div className="py-16 text-center space-y-4">
                     <div className="w-16 h-16 rounded-full bg-[#2A2217] border border-[#6B4F24]/40 mx-auto flex items-center justify-center text-[#B89B43]">
@@ -143,7 +168,7 @@ export default function CartDrawer() {
                     </div>
                     <div className="space-y-1">
                       <p className="font-serif text-lg font-bold text-[#F8F1E1]">Your Cart is Empty</p>
-                      <p className="text-xs text-[#C9B68C] max-w-xs mx-auto">
+                      <p className="text-xs text-[#C9B68C] max-w-xs mx-auto font-sans font-light">
                         Explore our delicious Mandi, Tandoori, Breads, and curries and add your favourites.
                       </p>
                     </div>
@@ -158,32 +183,32 @@ export default function CartDrawer() {
                 ) : (
                   <>
                     {/* Cart Items List */}
-                    <div className="space-y-3">
+                    <div className="space-y-2.5 sm:space-y-3">
                       {cart.map((ci) => (
                         <div
                           key={ci.item.id}
-                          className="p-3.5 rounded-xl bg-[#2A2217]/60 border border-[#6B4F24]/30 flex items-center justify-between gap-3 group hover:border-[#B89B43]/40 transition-colors"
+                          className="p-3 sm:p-3.5 rounded-xl bg-[#2A2217]/60 border border-[#6B4F24]/30 flex items-center justify-between gap-2.5 sm:gap-3 group hover:border-[#B89B43]/40 transition-colors"
                         >
-                          <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#6B4F24]/40">
+                          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden shrink-0 border border-[#6B4F24]/40 bg-[#1A1510]">
                             <Image
                               src={ci.item.image}
                               alt={ci.item.name}
                               fill
-                              sizes="56px"
+                              sizes="(max-width: 640px) 48px, 56px"
                               className="object-cover"
                             />
                           </div>
 
-                          <div className="flex-1 min-w-0">
+                          <div className="flex-1 min-w-0 pr-1">
                             <div className="flex items-center gap-1.5">
                               <span
-                                className={`w-2.5 h-2.5 rounded-full border ${
+                                className={`w-2.5 h-2.5 rounded-full border shrink-0 ${
                                   ci.item.isVeg
                                     ? "bg-emerald-500 border-emerald-400"
                                     : "bg-red-500 border-red-400"
                                 }`}
                               />
-                              <h4 className="font-serif text-xs font-bold text-[#F8F1E1] truncate">
+                              <h4 className="font-serif text-xs sm:text-sm font-bold text-[#F8F1E1] truncate">
                                 {ci.item.name}
                               </h4>
                             </div>
@@ -196,7 +221,7 @@ export default function CartDrawer() {
                           </div>
 
                           {/* Stepper Controls */}
-                          <div className="flex items-center gap-1 bg-[#1A1510] border border-[#6B4F24]/50 rounded-lg p-1">
+                          <div className="flex items-center gap-1 bg-[#1A1510] border border-[#6B4F24]/50 rounded-lg p-1 shrink-0">
                             <button
                               onClick={() => updateQuantity(ci.item.id, -1)}
                               className="w-6 h-6 rounded flex items-center justify-center text-[#C9B68C] hover:text-[#F8F1E1] hover:bg-[#3B2E1F] transition-colors"
@@ -204,7 +229,7 @@ export default function CartDrawer() {
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                            <span className="w-6 text-center text-xs font-bold text-[#F8F1E1]">
+                            <span className="w-5 sm:w-6 text-center text-xs font-bold text-[#F8F1E1]">
                               {ci.quantity}
                             </span>
                             <button
@@ -218,7 +243,7 @@ export default function CartDrawer() {
 
                           <button
                             onClick={() => removeFromCart(ci.item.id)}
-                            className="text-[#C9B68C] hover:text-red-400 p-1.5 transition-colors"
+                            className="text-[#C9B68C] hover:text-red-400 p-1.5 transition-colors shrink-0"
                             aria-label="Remove item"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -228,8 +253,8 @@ export default function CartDrawer() {
                     </div>
 
                     {/* Customer Details Form */}
-                    <form onSubmit={handleWhatsAppOrder} className="space-y-4 pt-2">
-                      <div className="p-4 rounded-xl bg-[#2A2217]/50 border border-[#6B4F24]/30 space-y-3">
+                    <form onSubmit={handleWhatsAppOrder} className="space-y-4 pt-1">
+                      <div className="p-3.5 sm:p-4 rounded-xl bg-[#2A2217]/50 border border-[#6B4F24]/30 space-y-3">
                         <p className="text-xs uppercase tracking-wider text-[#B89B43] font-bold font-sans">
                           Order Details
                         </p>
@@ -289,6 +314,7 @@ export default function CartDrawer() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
                           >
                             <label className="block text-[11px] text-[#C9B68C] mb-1 font-sans">
                               Delivery Address in Bengaluru <span className="text-red-400">*</span>
@@ -300,7 +326,7 @@ export default function CartDrawer() {
                                 onChange={(e) => setDeliveryAddress(e.target.value)}
                                 placeholder="House / Flat No, Street, Landmark, BTM Layout / area"
                                 rows={2}
-                                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200"
+                                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1A1510] border border-[#6B4F24]/50 text-xs text-[#F8F1E1] placeholder-[#C9B68C]/50 focus:outline-none focus:border-[#E7D28A] focus:ring-2 focus:ring-[#B89B43]/30 transition-all duration-200 resize-none"
                                 required
                               />
                             </div>
@@ -334,29 +360,29 @@ export default function CartDrawer() {
                 )}
               </div>
 
-              {/* Drawer Footer */}
+              {/* Drawer Footer (Solid opaque background, shrink-0, safe-area insets) */}
               {cart.length > 0 && (
-                <div className="p-5 border-t border-[#3B2E1F] bg-[#2A2217]/90 space-y-3">
+                <div className="p-4 sm:p-5 border-t border-[#6B4F24]/40 bg-[#1E1711] shadow-[0_-8px_25px_rgba(0,0,0,0.6)] shrink-0 space-y-2.5 sm:space-y-3 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:pb-5">
                   <div className="space-y-1.5 text-xs text-[#C9B68C]">
                     <div className="flex items-center justify-between">
                       <span>Total Items</span>
                       <span className="font-semibold text-[#F8F1E1]">{totalItems}</span>
                     </div>
-                    <div className="flex items-center justify-between text-base font-bold text-[#F8F1E1]">
+                    <div className="flex items-center justify-between text-sm sm:text-base font-bold text-[#F8F1E1]">
                       <span>Order Subtotal</span>
-                      <span className="text-[#E7D28A] font-serif text-xl">₹{subtotal}</span>
+                      <span className="text-[#E7D28A] font-serif text-lg sm:text-xl">₹{subtotal}</span>
                     </div>
-                    <p className="text-[10px] text-[#C9B68C]/80 italic pt-1">
+                    <p className="text-[10px] text-[#C9B68C]/80 italic pt-0.5 leading-tight">
                       * Please note: Orders are not final until Tasty Restaurant confirms item availability and total amount on WhatsApp.
                     </p>
                   </div>
 
                   <button
                     onClick={handleWhatsAppOrder}
-                    className="w-full py-4 rounded-xl font-sans font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl transition-all shadow-emerald-950/40"
+                    className="w-full min-h-[46px] py-3.5 sm:py-4 px-4 rounded-xl font-sans font-bold text-[11px] sm:text-xs uppercase tracking-wider sm:tracking-widest flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl transition-all shadow-emerald-950/40 active:scale-[0.99]"
                   >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>Order on WhatsApp (+91 89045 16291)</span>
+                    <MessageCircle className="w-4 h-4 shrink-0" />
+                    <span className="truncate">Order on WhatsApp (+91 89045 16291)</span>
                   </button>
                 </div>
               )}
